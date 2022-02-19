@@ -15,22 +15,9 @@ const vertexShaderText =
 
 const fragmentShaderText = (eqn) =>
     `precision mediump float;
-        varying vec3 fragColor;
-        // attribute vec2 vertPosition;
-        
-        bool cond(){
-            float dx = (${dx});
-            float dy = (${dy});
-            float x = ((gl_FragCoord[0] /  float(${window.innerWidth})) - 0.5)*dx;
-            float y =  ((gl_FragCoord[1]  / float(${window.innerHeight})) - 0.5)*dy;
-            return abs(${eqn}) < 0.1;
-        }
-        bool line(){
-            return  abs(11.0*gl_FragCoord[1] - floor(11.0*gl_FragCoord[1]) ) < 0.0;
-        }
+        varying vec3 fragColor;        
         void main()
         {
-            // gl_FragColor = vec4(fragColor, 1.0);
             float dx = (${dx});
             float dy = (${dy});
             float x = ((gl_FragCoord[0] /  float(${window.innerWidth})) - 0.5)*dx;
@@ -39,7 +26,7 @@ const fragmentShaderText = (eqn) =>
             if(colorMode){ 
             gl_FragColor = vec4( ${eqn},0.01*(${eqn})*(${eqn}),10.0*(${eqn}), 1);
             }else{
-            if(cond()){
+            if(abs(${eqn}) < 0.1){
                 gl_FragColor = vec4(0.0 ,0.0, 0.0, 1);
             }else{
                 gl_FragColor = vec4(1.0, 1.0, 1.0, 0.0);
