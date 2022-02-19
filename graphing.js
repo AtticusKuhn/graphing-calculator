@@ -49,43 +49,33 @@ const fragmentShaderText = (eqn) =>
         }`;
 
 var InitDemo = function (eqn) {
-    console.log('This is working');
-
     var canvas = document.getElementById('canvas');
-    // const ctx = canvas.getContext("2d")
     canvas.width = window.innerWidth
     canvas.height = window.innerHeight
     var gl = canvas.getContext('webgl');
-
     if (!gl) {
         console.log('WebGL not supported, falling back on experimental-webgl');
         gl = canvas.getContext('experimental-webgl');
     }
-
     if (!gl) {
         alert('Your browser does not support WebGL');
     }
-
     gl.clearColor(0.75, 0.85, 0.8, 1.0);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     var vertexShader = gl.createShader(gl.VERTEX_SHADER);
     var fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
-
     gl.shaderSource(vertexShader, vertexShaderText);
     gl.shaderSource(fragmentShader, fragmentShaderText(eqn));
-
     gl.compileShader(vertexShader);
     if (!gl.getShaderParameter(vertexShader, gl.COMPILE_STATUS)) {
         console.error('ERROR compiling vertex shader!', gl.getShaderInfoLog(vertexShader));
         return;
     }
-
     gl.compileShader(fragmentShader);
     if (!gl.getShaderParameter(fragmentShader, gl.COMPILE_STATUS)) {
         console.error('ERROR compiling fragment shader!', gl.getShaderInfoLog(fragmentShader));
         return;
     }
-
     var program = gl.createProgram();
     gl.attachShader(program, vertexShader);
     gl.attachShader(program, fragmentShader);
@@ -99,21 +89,16 @@ var InitDemo = function (eqn) {
         console.error('ERROR validating program!', gl.getProgramInfoLog(program));
         return;
     }
-
     const positions = [
         1.0, 1.0,
         -1.0, 1.0,
         1.0, -1.0,
         -1.0, -1.0,
     ];
-
-
     var triangleVertexBufferObject = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexBufferObject);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
-
     var positionAttribLocation = gl.getAttribLocation(program, 'vertPosition');
-    // var colorAttribLocation = gl.getAttribLocation(program, 'vertColor');
     gl.vertexAttribPointer(
         positionAttribLocation, // Attribute location
         2, // Number of elements per attribute
@@ -140,14 +125,11 @@ const zoomIn = () => {
     dy *= 0.9
     render()
 }
-
 const zoomOut = () => {
     dx *= 1.1;
     dy *= 1.1;
     render()
 }
-
-
 const colorToggle = () => {
     colorMode = !colorMode
     render();
